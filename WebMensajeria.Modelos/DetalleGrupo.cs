@@ -20,10 +20,10 @@ namespace WebMensajeria.Modelos
 
         [Required]
         public string descripcion { get; set; }
-        [ForeignKey("idChatC")]
+        [ForeignKey("chats")]
         [Column("Id_chat")]
         public int idChat { get; set; }
 
-        public Chat? idChatC { get; set; }
+        public Chat? chats { get; set; }
     }
 }

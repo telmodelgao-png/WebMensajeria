@@ -19,7 +19,7 @@ namespace WebMensajeria.Modelos
         [ForeignKey("mensajes")]
         [Column("id_mensaje")]
         public int idMensaje { get; set; }
-        [ForeignKey("usarioReceptor")]
+        [ForeignKey("usuarioReceptor")]
         [Column("id_usuario_receptor")]
         public int idUsuario { get; set; }
         [ForeignKey("tipoestado")]

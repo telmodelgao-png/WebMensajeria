@@ -26,6 +26,6 @@ namespace WebMensajeria.Modelos
         public int idTipoAdjunto { get; set; }
 
         public Mensaje? mensajes { get; set; }
-        public TipoAdjunto? tiposAdjuntos { get; set; }
+        public TipoAdjunto? tiposAdjutnos { get; set; }
     }
 }
