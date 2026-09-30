@@ -1,4 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("WebMensajeriaAPIContext") ?? throw new InvalidOperationException("Connection string 'WebMensajeriaAPIContext' not found.");
+
+builder.Services.AddDbContext<WebMensajeriaAPIContext>(options => options.UseNpgsql(connectionString));
 
 // Add services to the container.
 
