@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="WebMensajeria.API/WebMensajeria.API.csproj" Id="fa166285-6900-467a-b676-a9acaa8e5157" />
+  <Project Path="WebMensajeria.Consumer/WebMensajeria.Consumer.csproj" Id="12ed93b6-0cb9-40b0-be9a-1a79251e47ca" />
   <Project Path="WebMensajeria.Modelos/WebMensajeria.Modelos.csproj" />
 </Solution>

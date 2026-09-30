@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("WebMensajeriaAPIContext") ?? throw new InvalidOperationException("Connection string 'WebMensajeriaAPIContext' not found.");
+var connectionString = builder.Configuration.GetConnectionString("Postgres") ?? throw new InvalidOperationException("Connection string 'Postgres' not found.");
 
 builder.Services.AddDbContext<WebMensajeriaAPIContext>(options => options.UseNpgsql(connectionString));
 
@@ -14,11 +14,11 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 

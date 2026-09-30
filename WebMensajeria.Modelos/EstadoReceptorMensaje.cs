@@ -22,12 +22,12 @@ namespace WebMensajeria.Modelos
         [ForeignKey("usuarioReceptor")]
         [Column("id_usuario_receptor")]
         public int idUsuario { get; set; }
-        [ForeignKey("tipoestado")]
+        [ForeignKey("tipoEstadoMensaje")]
         [Column("id_tipo_estado")]
         public int tipoEstado { get; set; }
         //objetos de navegacion 
         public Mensaje? mensajes { get; set; }
         public Usuario? usuarioReceptor { get; set; }
-        public TipoEstadoMensaje? tipoestado { get; set; }
+        public TipoEstadoMensaje? tipoEstadoMensaje{ get; set; }
     }
 }
