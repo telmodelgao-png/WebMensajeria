@@ -1,0 +1,39 @@
+@model WebMensajeria.Modelos.TipoAdjunto
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>TipoAdjunto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idTipoAdjunto" />
+            <div class="form-group">
+                <label asp-for="nombreTipo" class="control-label"></label>
+                <input asp-for="nombreTipo" class="form-control" />
+                <span asp-validation-for="nombreTipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="adjuntos" class="control-label"></label>
+                <input asp-for="adjuntos" class="form-control" />
+                <span asp-validation-for="adjuntos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,41 @@
+@model IEnumerable<WebMensajeria.Modelos.TipoAdjunto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nombreTipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.adjuntos)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.nombreTipo)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.adjuntos)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idTipoAdjunto">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.idTipoAdjunto">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.idTipoAdjunto">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

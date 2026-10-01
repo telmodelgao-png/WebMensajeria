@@ -1,0 +1,45 @@
+@model WebMensajeria.Modelos.Chat
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Chat</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idTipoChat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idTipoChat)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.tipoChat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.tipoChat)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.participantesChats)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.participantesChats)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.mensajes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.mensajes)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.idChat">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

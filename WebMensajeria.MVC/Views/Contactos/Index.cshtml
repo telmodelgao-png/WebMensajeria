@@ -1,0 +1,53 @@
+@model IEnumerable<WebMensajeria.Modelos.Contacto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idUsuarioPrincipal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idUsuarioContacto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usuario_principal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usuario_contacto)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.idUsuarioPrincipal)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.idUsuarioContacto)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.usuario_principal)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.usuario_contacto)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idContacto">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.idContacto">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.idContacto">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

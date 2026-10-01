@@ -1,0 +1,83 @@
+@model IEnumerable<WebMensajeria.Modelos.Mensaje>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.mensaje)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fechaEnvio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idChat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.chats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usuarioRemitente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.adjuntos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.estadoReceptorMensajes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.reaccionMensajes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.mensaje)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.fechaEnvio)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.idChat)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.idUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.chats)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.usuarioRemitente)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.adjuntos)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.estadoReceptorMensajes)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.reaccionMensajes)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idMensaje">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.idMensaje">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.idMensaje">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

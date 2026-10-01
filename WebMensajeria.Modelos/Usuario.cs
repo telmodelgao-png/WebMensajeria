@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.WebScoket;
 namespace WebMensajeria.Modelos
 {
     [Table("usuarios")]
@@ -22,6 +22,8 @@ namespace WebMensajeria.Modelos
         [Required]
         [MaxLength(100)]
         public string correoelectronico { get; set; }
+        [Required]
+        public string password { get; set; }
         [InverseProperty(nameof(Contacto.usuario_principal))]
         public List<Contacto> misContactos { get; set; } = new List<Contacto>();
         [InverseProperty(nameof(Contacto.usuario_contacto))]

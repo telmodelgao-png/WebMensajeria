@@ -1,0 +1,45 @@
+@model WebMensajeria.Modelos.DetalleGrupo
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>DetalleGrupo</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.nombreGrupo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.nombreGrupo)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idChat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idChat)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.chats)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.chats)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.idDetalleGrupo">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

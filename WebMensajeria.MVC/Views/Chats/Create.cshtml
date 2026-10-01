@@ -1,0 +1,48 @@
+@model WebMensajeria.Modelos.Chat
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Chat</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="idTipoChat" class="control-label"></label>
+                <input asp-for="idTipoChat" class="form-control" />
+                <span asp-validation-for="idTipoChat" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="tipoChat" class="control-label"></label>
+                <input asp-for="tipoChat" class="form-control" />
+                <span asp-validation-for="tipoChat" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="participantesChats" class="control-label"></label>
+                <input asp-for="participantesChats" class="form-control" />
+                <span asp-validation-for="participantesChats" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="mensajes" class="control-label"></label>
+                <input asp-for="mensajes" class="form-control" />
+                <span asp-validation-for="mensajes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

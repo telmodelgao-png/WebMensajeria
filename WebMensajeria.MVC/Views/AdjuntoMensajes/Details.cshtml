@@ -1,0 +1,52 @@
+@model WebMensajeria.Modelos.AdjuntoMensaje
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>AdjuntoMensaje</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.urlArchivo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.urlArchivo)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idMensaje)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idMensaje)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idTipoAdjunto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idTipoAdjunto)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.mensajes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.mensajes)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.tiposAdjutnos)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.tiposAdjutnos)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.idAdjunto">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

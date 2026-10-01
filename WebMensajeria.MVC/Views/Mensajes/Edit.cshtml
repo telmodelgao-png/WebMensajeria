@@ -1,0 +1,74 @@
+@model WebMensajeria.Modelos.Mensaje
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Mensaje</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idMensaje" />
+            <div class="form-group">
+                <label asp-for="mensaje" class="control-label"></label>
+                <input asp-for="mensaje" class="form-control" />
+                <span asp-validation-for="mensaje" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fechaEnvio" class="control-label"></label>
+                <input asp-for="fechaEnvio" class="form-control" />
+                <span asp-validation-for="fechaEnvio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idChat" class="control-label"></label>
+                <input asp-for="idChat" class="form-control" />
+                <span asp-validation-for="idChat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="idUsuario" class="control-label"></label>
+                <input asp-for="idUsuario" class="form-control" />
+                <span asp-validation-for="idUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="chats" class="control-label"></label>
+                <input asp-for="chats" class="form-control" />
+                <span asp-validation-for="chats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="usuarioRemitente" class="control-label"></label>
+                <input asp-for="usuarioRemitente" class="form-control" />
+                <span asp-validation-for="usuarioRemitente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="adjuntos" class="control-label"></label>
+                <input asp-for="adjuntos" class="form-control" />
+                <span asp-validation-for="adjuntos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="estadoReceptorMensajes" class="control-label"></label>
+                <input asp-for="estadoReceptorMensajes" class="form-control" />
+                <span asp-validation-for="estadoReceptorMensajes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="reaccionMensajes" class="control-label"></label>
+                <input asp-for="reaccionMensajes" class="form-control" />
+                <span asp-validation-for="reaccionMensajes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

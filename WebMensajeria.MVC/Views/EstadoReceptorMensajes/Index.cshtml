@@ -1,0 +1,65 @@
+@model IEnumerable<WebMensajeria.Modelos.EstadoReceptorMensaje>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idMensaje)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idUsuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tipoEstado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mensajes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usuarioReceptor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tipoEstadoMensaje)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.idMensaje)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.idUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.tipoEstado)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.mensajes)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.usuarioReceptor)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.tipoEstadoMensaje)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idEstadoReceptor">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.idEstadoReceptor">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.idEstadoReceptor">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

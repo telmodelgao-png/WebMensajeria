@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebMensajeria.Modelos;
+using BCrypt.Net;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -42,37 +43,37 @@ public class UsuariosController : ControllerBase
         {
             return BadRequest();
         }
-
-        _context.Entry(usuario).State = EntityState.Modified;
-
-        try
+        var usuarioExiste = await _context.Usuario.FindAsync(idusuario);
+        if (usuarioExiste == null)
         {
-            await _context.SaveChangesAsync();
+            return NotFound();
         }
-        catch (DbUpdateConcurrencyException)
+        usuarioExiste.nombreUsuario = usuario.nombreUsuario;
+        usuarioExiste.correoelectronico=usuario.correoelectronico;
+        if (!string.IsNullOrEmpty(usuario.password))
         {
-            if (!UsuarioExists(idusuario))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            usuarioExiste.password = BCrypt.Net.BCrypt.HashPassword(usuario.password);
         }
-
+        await _context.SaveChangesAsync();
         return NoContent();
-    }
+    
+        }
 
     // POST: api/Usuario
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
     public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
     {
+       var existeUsuario = await _context.Usuario.AnyAsync(u=>u.correoelectronico.ToLower()
+       == usuario.correoelectronico.ToLower());
+        if (existeUsuario)
+        {
+            return Conflict("Ya se registro ese corre");
+        }
+        usuario.password=BCrypt.Net.BCrypt.HashPassword(usuario.password);
         _context.Usuario.Add(usuario);
         await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetUsuario", new { idusuario = usuario.IdUsuario }, usuario);
+        return CreatedAtAction(nameof(GetUsuario), new { idusuario = usuario.IdUsuario }, usuario);
     }
 
     // DELETE: api/Usuario/5

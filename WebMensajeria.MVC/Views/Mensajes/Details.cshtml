@@ -1,0 +1,80 @@
+@model WebMensajeria.Modelos.Mensaje
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Mensaje</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.mensaje)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.mensaje)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.fechaEnvio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.fechaEnvio)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idChat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idChat)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idUsuario)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idUsuario)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.chats)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.chats)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.usuarioRemitente)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.usuarioRemitente)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.adjuntos)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.adjuntos)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.estadoReceptorMensajes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.estadoReceptorMensajes)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.reaccionMensajes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.reaccionMensajes)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.idMensaje">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

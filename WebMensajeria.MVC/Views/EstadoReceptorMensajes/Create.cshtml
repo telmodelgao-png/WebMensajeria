@@ -1,0 +1,60 @@
+@model WebMensajeria.Modelos.EstadoReceptorMensaje
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>EstadoReceptorMensaje</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="idMensaje" class="control-label"></label>
+                <input asp-for="idMensaje" class="form-control" />
+                <span asp-validation-for="idMensaje" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="idUsuario" class="control-label"></label>
+                <input asp-for="idUsuario" class="form-control" />
+                <span asp-validation-for="idUsuario" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="tipoEstado" class="control-label"></label>
+                <input asp-for="tipoEstado" class="form-control" />
+                <span asp-validation-for="tipoEstado" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="mensajes" class="control-label"></label>
+                <input asp-for="mensajes" class="form-control" />
+                <span asp-validation-for="mensajes" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="usuarioReceptor" class="control-label"></label>
+                <input asp-for="usuarioReceptor" class="form-control" />
+                <span asp-validation-for="usuarioReceptor" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="tipoEstadoMensaje" class="control-label"></label>
+                <input asp-for="tipoEstadoMensaje" class="form-control" />
+                <span asp-validation-for="tipoEstadoMensaje" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,53 @@
+@model IEnumerable<WebMensajeria.Modelos.Chat>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idTipoChat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tipoChat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.participantesChats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mensajes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.idTipoChat)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.tipoChat)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.participantesChats)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.mensajes)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idChat">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.idChat">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.idChat">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

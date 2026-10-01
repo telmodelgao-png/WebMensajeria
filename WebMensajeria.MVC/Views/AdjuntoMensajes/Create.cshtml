@@ -1,0 +1,54 @@
+@model WebMensajeria.Modelos.AdjuntoMensaje
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>AdjuntoMensaje</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="urlArchivo" class="control-label"></label>
+                <input asp-for="urlArchivo" class="form-control" />
+                <span asp-validation-for="urlArchivo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="idMensaje" class="control-label"></label>
+                <input asp-for="idMensaje" class="form-control" />
+                <span asp-validation-for="idMensaje" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="idTipoAdjunto" class="control-label"></label>
+                <input asp-for="idTipoAdjunto" class="form-control" />
+                <span asp-validation-for="idTipoAdjunto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="mensajes" class="control-label"></label>
+                <input asp-for="mensajes" class="form-control" />
+                <span asp-validation-for="mensajes" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="tiposAdjutnos" class="control-label"></label>
+                <input asp-for="tiposAdjutnos" class="form-control" />
+                <span asp-validation-for="tiposAdjutnos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

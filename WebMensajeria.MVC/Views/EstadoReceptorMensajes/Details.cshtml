@@ -1,0 +1,59 @@
+@model WebMensajeria.Modelos.EstadoReceptorMensaje
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>EstadoReceptorMensaje</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idMensaje)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idMensaje)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.idUsuario)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idUsuario)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.tipoEstado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.tipoEstado)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.mensajes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.mensajes)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.usuarioReceptor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.usuarioReceptor)
+        </dd>
+    </dl>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.tipoEstadoMensaje)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.tipoEstadoMensaje)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.idEstadoReceptor">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,59 @@
+@model IEnumerable<WebMensajeria.Modelos.AdjuntoMensaje>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.urlArchivo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idMensaje)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idTipoAdjunto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mensajes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tiposAdjutnos)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.urlArchivo)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.idMensaje)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.idTipoAdjunto)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.mensajes)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.tiposAdjutnos)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idAdjunto">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.idAdjunto">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.idAdjunto">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
