@@ -26,11 +26,41 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Chats" asp-action="Index">Chats</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TipoChats" asp-action="Index">TipoChats</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="RolParticipantes" asp-action="Index">RolParticipantes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TipoEstadoMensajes" asp-action="Index">TipoEstadoMensajes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TipoAdjuntos" asp-action="Index">TipoAdjuntos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TipoReacciones" asp-action="Index">TipoReacciones</a>
                         </li>
                     </ul>
                 </div>
             </div>
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <span class="navbar-text me-3">
+                    Bienvenido, @User.Identity.Name
+                </span>
+
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post"
+                      class="d-inline">
+
+                    <button type="submit"
+                            class="btn btn-outline-danger">
+                        Cerrar sesión
+                    </button>
+
+                </form>
+            }
         </nav>
     </header>
     <div class="container">

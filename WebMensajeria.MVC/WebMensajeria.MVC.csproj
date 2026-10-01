@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WebMensajeria.Consumer\WebMensajeria.Consumer.csproj" />
     <ProjectReference Include="..\WebMensajeria.Modelos\WebMensajeria.Modelos.csproj" />
+    <ProjectReference Include="..\WebMensajeria.Services\WebMensajeria.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

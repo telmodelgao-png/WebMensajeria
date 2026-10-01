@@ -84,7 +84,8 @@ namespace WebMensajeria.API.Migrations
                     id_usuario = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     nombre_usuario = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    correoelectronico = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                    correoelectronico = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    password = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebMensajeria.Modelos;
 using WebMensajeria.Consumer;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
+[Authorize]
 public class TipoChatsController : Controller
 {
 

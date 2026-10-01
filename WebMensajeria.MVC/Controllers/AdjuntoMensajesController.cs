@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using WebMensajeria.Modelos;
 using WebMensajeria.Consumer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+[Authorize]
 public class AdjuntoMensajesController : Controller
 {
 

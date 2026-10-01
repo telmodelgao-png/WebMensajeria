@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card shadow">
+                <div class="card-body p-4">
+
+                    <h2 class="text-center mb-4">
+                        Iniciar Sesión
+                    </h2>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    @if (TempData["Mensaje"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["Mensaje"]
+                        </div>
+                    }
+
+                    <form asp-controller="Account"
+                          asp-action="Index"
+                          method="post">
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Correo electrónico
+                            </label>
+
+                            <input type="email"
+                                   name="correoelectronico"
+                                   class="form-control"
+                                   placeholder="correo@ejemplo.com"
+                                   required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Contraseña
+                            </label>
+
+                            <input type="password"
+                                   name="password"
+                                   class="form-control"
+                                   placeholder="Ingrese su contraseña"
+                                   required />
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+                            Iniciar Sesión
+                        </button>
+
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <span>¿No tienes una cuenta?</span>
+
+                        <a asp-controller="Account"
+                           asp-action="Register">
+                            Registrarse
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

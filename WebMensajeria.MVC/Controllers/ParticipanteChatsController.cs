@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using WebMensajeria.Modelos;
 using WebMensajeria.Consumer;
+using Microsoft.AspNetCore.Authorization;
+[Authorize]
 public class ParticipanteChatsController : Controller
 {
 

@@ -1,8 +1,8 @@
 using Humanizer;
 using WebMensajeria.Consumer;
 using WebMensajeria.Modelos;
-using Microsoft.EntityFrameworkCore;
-
+using WebMensajeria.Services.Interfaces;
+using WebMensajeria.Services;
 CRUD<AdjuntoMensaje>.Endpoint = "https://localhost:7215/api/AdjuntoMensajes";
 CRUD<Chat>.Endpoint = "https://localhost:7215/api/Chats";
 CRUD<Contacto>.Endpoint = "https://localhost:7215/api/Contactos";
@@ -16,15 +16,18 @@ CRUD<TipoAdjunto>.Endpoint = "https://localhost:7215/api/TipoAdjuntos";
 CRUD<TipoChat>.Endpoint = "https://localhost:7215/api/TipoChats";
 CRUD<TipoEstadoMensaje>.Endpoint = "https://localhost:7215/api/TipoEstadoMensajes";
 CRUD<TipoReaccion>.Endpoint = "https://localhost:7215/api/TipoReacciones";
+CRUD<Usuario>.Endpoint = "https://localhost:7215/api/Usuarios";
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("WebMensajeriaAPIContext") ?? throw new InvalidOperationException("Connection string 'WebMensajeriaAPIContext' not found.");
-
-builder.Services.AddDbContext<WebMensajeriaAPIContext>(options => options.UseNpgsql(connectionString));
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped <IAuthService,AuthService>();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddAuthentication("Cookies").AddCookie("Cookies", options => {
+    options.LoginPath = "/Account/Index";
+});
 
 var app = builder.Build();
 
@@ -40,11 +43,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Index}/{id?}");
 
 app.Run();

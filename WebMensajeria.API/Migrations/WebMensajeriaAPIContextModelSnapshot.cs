@@ -378,6 +378,10 @@ namespace WebMensajeria.API.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("nombre_usuario");
 
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("IdUsuario");
 
                     b.ToTable("usuarios");
@@ -457,7 +461,7 @@ namespace WebMensajeria.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebMensajeria.Modelos.TipoEstadoMensaje", "tipoestado")
+                    b.HasOne("WebMensajeria.Modelos.TipoEstadoMensaje", "tipoEstadoMensaje")
                         .WithMany("estadoReceptorMensajes")
                         .HasForeignKey("tipoEstado")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -465,7 +469,7 @@ namespace WebMensajeria.API.Migrations
 
                     b.Navigation("mensajes");
 
-                    b.Navigation("tipoestado");
+                    b.Navigation("tipoEstadoMensaje");
 
                     b.Navigation("usuarioReceptor");
                 });

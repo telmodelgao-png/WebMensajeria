@@ -1,9 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebMensajeria.MVC.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace WebMensajeria.MVC.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
