@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Chats";
+}
+
+<link rel="stylesheet" href="~/css/chat.css" asp-append-version="true" />
+
+<div class="chat-app" id="chatApp" data-yo="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value">
+
+    <aside class="chat-side">
+        <div class="chat-side__head">
+            <input id="buscar" class="chat-search" type="search" autocomplete="off"
+                   placeholder="Buscar personas por nombre de usuario" />
+        </div>
+
+        <ul id="resultados" class="chat-list" hidden></ul>
+        <ul id="conversaciones" class="chat-list"></ul>
+        <p id="sinChats" class="chat-empty">Aún no tienes conversaciones. Busca a alguien para escribirle.</p>
+    </aside>
+
+    <section class="chat-main">
+        <div id="placeholder" class="chat-placeholder">
+            Elige una conversación o busca a alguien para empezar a escribir.
+        </div>
+
+        <div id="panel" class="chat-panel" hidden>
+            <header class="chat-header">
+                <button id="volver" class="chat-back" type="button" aria-label="Volver a la lista">&#8249;</button>
+                <div id="hAvatar" class="chat-avatar"></div>
+                <div id="hNombre" class="chat-header__name"></div>
+            </header>
+
+            <div id="mensajes" class="chat-messages" aria-live="polite"></div>
+
+            <form id="formEnviar" class="chat-composer" autocomplete="off">
+                <textarea id="texto" rows="1" maxlength="2000" placeholder="Escribe un mensaje"></textarea>
+                <button type="submit" class="chat-send">Enviar</button>
+            </form>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+    @* Solo para ver el diseño con datos de ejemplo: abre /Mensajeria?demo=1. Borra esta línea cuando conectes tu lógica. *@
+    <script src="~/js/chat-demo.js" asp-append-version="true"></script>
+}
