@@ -32,7 +32,37 @@ public class MensajesController : ControllerBase
 
         return mensaje;
     }
+    // GET: api/Mensajes/chat/5?idUsuario=1
+    [HttpGet("chat/{idchat}")]
+    public async Task<ActionResult> GetMensajesChat(
+        int idchat,
+        int idUsuario)
+    {
+        // Comprobar que el usuario pertenece al chat.
+        var pertenece = await _context.ParticipanteChat
+            .AnyAsync(p =>
+                p.idChat == idchat &&
+                p.idUsuario == idUsuario);
 
+        if (!pertenece)
+            return Forbid();
+
+        var mensajes = await _context.Mensaje
+            .Where(m => m.idChat == idchat)
+            .OrderBy(m => m.fechaEnvio)
+            .ThenBy(m => m.idMensaje)
+            .Select(m => new
+            {
+                idMensaje = m.idMensaje,
+                idChat = m.idChat,
+                idUsuario = m.idUsuario,
+                mensaje = m.mensaje,
+                fechaEnvio = m.fechaEnvio
+            })
+            .ToListAsync();
+
+        return Ok(mensajes);
+    }
     // PUT: api/Mensaje/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{idmensaje}")]

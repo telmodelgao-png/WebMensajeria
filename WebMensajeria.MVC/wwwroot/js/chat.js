@@ -3,14 +3,18 @@
 
   Datos que espera:
     conversación: { idChat, nombre, ultimoMensaje, fecha, noLeidos }
-    mensaje:      { idChat, idUsuario, mensaje, fechaEnvio, nombre? }  (nombre es opcional; sirve para grupos)
-    usuario:      { idUsuario, nombreUsuario }                      (resultados de búsqueda)
+    mensaje:      { idMensaje, idChat, idUsuario, mensaje, fechaEnvio, estado, eliminado, nombre? }
+                  estado: "enviado" | "entregado" | "leido"   (solo en mensajes propios)
+    usuario:      { idUsuario, nombreUsuario }                 (resultados de búsqueda)
 
   Uso:
-    Chat.init({ onSend, onOpen, onSearch, onPickUser })     onSend(idChat, texto, borrador): idChat es null si es el primer mensaje
-    Chat.setConversations(lista)   Chat.openChat({ idChat, nombre })
-    Chat.openDraft({ idUsuario, nombre })   abre el chat vacío con alguien con quien aún no hay chat
-    Chat.setMessages(lista)        Chat.addMessage(mensaje)
+    Chat.init({ onSend, onOpen, onSearch, onPickUser, onDelete })
+        onSend(idChat, texto, borrador)  idChat es null en el primer mensaje (borrador = { idUsuario, nombre })
+        onDelete(idMensaje)              el usuario pidió eliminar uno de sus mensajes
+    Chat.setConversations(lista)    Chat.openChat({ idChat, nombre })
+    Chat.openDraft({ idUsuario, nombre })   chat vacío con alguien con quien aún no hay chat
+    Chat.setMessages(lista)         Chat.addMessage(mensaje)
+    Chat.updateMessage({ idMensaje, ...campos })   Chat.markDeleted(idMensaje)
     Chat.setSearchResults(lista)
 */
 window.Chat = (function () {
@@ -18,12 +22,15 @@ window.Chat = (function () {
     const $ = id => document.getElementById(id);
     const yo = parseInt(app.dataset.yo, 10);
 
-    let h = { onSend() {}, onOpen() {}, onSearch() {}, onPickUser() {} };
+    let h = { onSend() {}, onOpen() {}, onSearch() {}, onPickUser() {}, onDelete() {} };
     let conversaciones = [];
     let activo = null;
-    let ultimoDia = null;
-    let borrador = null;   // { idUsuario, nombre } cuando aún no existe el chat
+    let borrador = null;      // { idUsuario, nombre } cuando aún no existe el chat
     let nombrePanel = '';
+    let ultimoDia = null;
+    const burbujas = new Map();   // idMensaje -> { m, box }
+
+    const ETIQUETA = { enviado: 'Enviado', entregado: 'Entregado', leido: 'Leído' };
 
     /* ---------- utilidades ---------- */
     const el = (tag, cls, text) => {
@@ -82,7 +89,7 @@ window.Chat = (function () {
         });
     }
 
-    /* ---------- mensajes ---------- */
+    /* ---------- panel de conversación ---------- */
     function mostrarVacio() {
         const v = el('div', 'chat-vacio');
         v.append(el('strong', null, 'Empieza la conversación'),
@@ -93,6 +100,7 @@ window.Chat = (function () {
     function abrirPanel(nombre) {
         nombrePanel = nombre;
         ultimoDia = null;
+        burbujas.clear();
         $('placeholder').hidden = true;
         $('panel').hidden = false;
         $('hNombre').textContent = nombre;
@@ -103,25 +111,52 @@ window.Chat = (function () {
         $('conversaciones').hidden = false;
     }
 
+    /* ---------- mensajes ---------- */
+    function construir(m) {
+        const mio = m.idUsuario === yo;
+        const box = el('div', 'chat-msg ' + (mio ? 'chat-msg--mine' : 'chat-msg--other'));
+
+        if (!mio && m.nombre && !m.eliminado) box.append(el('div', 'chat-msg__author', m.nombre));
+
+        box.append(el('div', 'chat-bubble' + (m.eliminado ? ' chat-bubble--eliminado' : ''),
+                      m.eliminado ? 'Se eliminó este mensaje' : m.mensaje));
+
+        const meta = el('div', 'chat-msg__meta');
+        meta.append(el('span', 'chat-msg__time', hora(m.fechaEnvio)));
+
+        if (mio && !m.eliminado && m.estado) {
+            meta.append(el('span', 'chat-msg__estado chat-msg__estado--' + m.estado, ETIQUETA[m.estado] || m.estado));
+        }
+        if (mio && !m.eliminado && m.idMensaje != null) {
+            const b = el('button', 'chat-msg__eliminar', 'Eliminar');
+            b.type = 'button';
+            b.addEventListener('click', () => {
+                if (confirm('¿Eliminar este mensaje? Tampoco se verá para la otra persona.')) h.onDelete(m.idMensaje);
+            });
+            meta.append(b);
+        }
+        box.append(meta);
+        return box;
+    }
+
     function burbuja(m) {
         const vacio = $('mensajes').querySelector('.chat-vacio');
         if (vacio) vacio.remove();
-        const mio = m.idUsuario === yo;
+
         const d = claveDia(m.fechaEnvio);
         if (d !== ultimoDia) {
             $('mensajes').append(el('div', 'chat-day', dia(m.fechaEnvio)));
             ultimoDia = d;
         }
-        const box = el('div', 'chat-msg ' + (mio ? 'chat-msg--mine' : 'chat-msg--other'));
-        if (!mio && m.nombre) box.append(el('div', 'chat-msg__author', m.nombre));
-        box.append(el('div', 'chat-bubble', m.mensaje), el('div', 'chat-msg__time', hora(m.fechaEnvio)));
+        const box = construir(m);
         $('mensajes').append(box);
+        if (m.idMensaje != null) burbujas.set(m.idMensaje, { m, box });
     }
 
     function actualizarResumen(m, sumarNoLeido) {
         const c = conversaciones.find(x => x.idChat === m.idChat);
         if (!c) return;
-        c.ultimoMensaje = m.mensaje;
+        c.ultimoMensaje = m.eliminado ? 'Mensaje eliminado' : m.mensaje;
         c.fecha = m.fechaEnvio;
         c.noLeidos = sumarNoLeido ? (c.noLeidos || 0) + 1 : 0;
         conversaciones = [c, ...conversaciones.filter(x => x !== c)]; // la más reciente arriba
@@ -161,6 +196,7 @@ window.Chat = (function () {
 
         setMessages(lista) {
             $('mensajes').replaceChildren();
+            burbujas.clear();
             ultimoDia = null;
             if (!lista || lista.length === 0) mostrarVacio();
             else lista.forEach(burbuja);
@@ -168,6 +204,7 @@ window.Chat = (function () {
         },
 
         addMessage(m) {
+            if (m.idMensaje != null && burbujas.has(m.idMensaje)) { api.updateMessage(m); return; } // evita duplicados
             if (m.idChat === activo) {
                 burbuja(m);
                 bajar();
@@ -177,12 +214,23 @@ window.Chat = (function () {
             }
         },
 
+        // Cambia campos de un mensaje ya pintado (por ejemplo estado: "leido").
+        updateMessage(parcial) {
+            const r = burbujas.get(parcial.idMensaje);
+            if (!r) return;
+            Object.assign(r.m, parcial);
+            const nuevo = construir(r.m);
+            r.box.replaceWith(nuevo);
+            r.box = nuevo;
+        },
+
+        markDeleted(idMensaje) { api.updateMessage({ idMensaje, eliminado: true }); },
+
         setSearchResults(lista) {
             const ul = $('resultados');
             ul.replaceChildren();
             if (!lista || lista.length === 0) {
-                const li = el('li', 'chat-empty', 'No se encontró a nadie con ese nombre.');
-                ul.append(li);
+                ul.append(el('li', 'chat-empty', 'No se encontró a nadie con ese nombre.'));
             }
             (lista || []).forEach(u => {
                 const li = el('li', 'chat-item');

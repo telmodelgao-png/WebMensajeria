@@ -172,18 +172,24 @@
     .chat-back { display: block; }
     .chat-msg { max-width: 85%; }
 }
-/* ---------- Chat vacío ---------- */
-.chat-vacio {
-    margin: auto;
-    text-align: center;
-    color: var(--chat-muted);
-    max-width: 30ch;
-    padding: 24px;
-}
 
-    .chat-vacio strong {
-        display: block;
-        color: var(--chat-ink);
-        font-size: 1.05rem;
-        margin-bottom: 4px;
-    }
+/* ---------- Chat vacío ---------- */
+.chat-vacio { margin: auto; text-align: center; color: var(--chat-muted); max-width: 30ch; padding: 24px; }
+.chat-vacio strong { display: block; color: var(--chat-ink); font-size: 1.05rem; margin-bottom: 4px; }
+
+/* ---------- Hora, estado y eliminar ---------- */
+.chat-msg__meta { display: flex; gap: 8px; align-items: center; margin: 2px 6px 0; font-size: .7rem; color: var(--chat-muted); }
+.chat-msg__meta .chat-msg__time { margin: 0; }
+.chat-msg__estado--leido { color: var(--chat-mine); font-weight: 600; }
+
+.chat-msg__eliminar { border: 0; background: none; padding: 0; font-size: .7rem; color: var(--chat-muted); text-decoration: underline; opacity: 0; cursor: pointer; }
+.chat-msg:hover .chat-msg__eliminar, .chat-msg__eliminar:focus-visible { opacity: 1; }
+@media (hover: none) { .chat-msg__eliminar { opacity: 1; } }
+
+.chat-msg--mine .chat-bubble.chat-bubble--eliminado,
+.chat-msg--other .chat-bubble.chat-bubble--eliminado {
+    background: transparent;
+    border: 1px dashed var(--chat-line);
+    color: var(--chat-muted);
+    font-style: italic;
+}

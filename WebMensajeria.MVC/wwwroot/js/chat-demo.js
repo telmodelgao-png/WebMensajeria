@@ -14,7 +14,7 @@
     const historial = {
         1: [
             { idChat: 1, idUsuario: yo + 1, nombre: 'Marcela', mensaje: 'Hola, ¿cómo vas con el proyecto?', fechaEnvio: min(40) },
-            { idChat: 1, idUsuario: yo, nombre: 'Yo', mensaje: 'Bien, ya tengo el login y la base de datos.', fechaEnvio: min(38) },
+            { idChat: 1, idUsuario: yo, idMensaje: 2, nombre: 'Yo', mensaje: 'Bien, ya tengo el login y la base de datos.', fechaEnvio: min(38), estado: 'leido' },
             { idChat: 1, idUsuario: yo + 1, nombre: 'Marcela', mensaje: 'Nos vemos mañana entonces', fechaEnvio: min(5) }
         ],
         2: [{ idChat: 2, idUsuario: yo + 2, nombre: 'Andrés', mensaje: 'Ya te mandé el archivo', fechaEnvio: min(95) }]
@@ -24,11 +24,13 @@
         onOpen: id => Chat.setMessages(historial[id] || []),
         onSend: (idChat, texto, borrador) => {
             if (idChat === null) {   // primer mensaje: se simula la creación del chat
-                Chat.openChat({ idChat: 1000 + borrador.idUsuario, nombre: borrador.nombre });
                 idChat = 1000 + borrador.idUsuario;
+                Chat.openChat({ idChat, nombre: borrador.nombre });
             }
-            Chat.addMessage({ idChat, idUsuario: yo, mensaje: texto, fechaEnvio: new Date().toISOString() });
+            Chat.addMessage({ idMensaje: Date.now(), idChat, idUsuario: yo, mensaje: texto,
+                              fechaEnvio: new Date().toISOString(), estado: 'enviado', eliminado: false });
         },
+        onDelete: id => Chat.markDeleted(id),
         onSearch: texto => Chat.setSearchResults(
             ['Marcela', 'Andrés', 'Lucía', 'Pablo'].filter(n => n.toLowerCase().includes(texto.toLowerCase()))
                 .map((n, i) => ({ idUsuario: 100 + i, nombreUsuario: n }))),
