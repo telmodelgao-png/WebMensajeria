@@ -22,11 +22,17 @@
 
     Chat.init({
         onOpen: id => Chat.setMessages(historial[id] || []),
-        onSend: (idChat, texto) => Chat.addMessage({ idChat, idUsuario: yo, nombre: 'Yo', mensaje: texto, fechaEnvio: new Date().toISOString() }),
+        onSend: (idChat, texto, borrador) => {
+            if (idChat === null) {   // primer mensaje: se simula la creación del chat
+                Chat.openChat({ idChat: 1000 + borrador.idUsuario, nombre: borrador.nombre });
+                idChat = 1000 + borrador.idUsuario;
+            }
+            Chat.addMessage({ idChat, idUsuario: yo, mensaje: texto, fechaEnvio: new Date().toISOString() });
+        },
         onSearch: texto => Chat.setSearchResults(
             ['Marcela', 'Andrés', 'Lucía', 'Pablo'].filter(n => n.toLowerCase().includes(texto.toLowerCase()))
                 .map((n, i) => ({ idUsuario: 100 + i, nombreUsuario: n }))),
-        onPickUser: (id, nombre) => Chat.openChat({ idChat: 1000 + id, nombre })
+        onPickUser: (id, nombre) => Chat.openDraft({ idUsuario: id, nombre })
     });
 
     Chat.setConversations(conversaciones);

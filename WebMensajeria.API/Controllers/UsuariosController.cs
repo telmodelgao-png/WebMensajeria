@@ -19,8 +19,22 @@ public class UsuariosController : ControllerBase
     {
         return await _context.Usuario.ToListAsync();
     }
+    [HttpGet("buscar")]
+    public async Task<ActionResult> Buscar(string texto, int idActual) 
+    {
+        if (string.IsNullOrEmpty(texto) || texto.Trim().Length < 2)
+            return Ok(new List<object>());
 
-    // GET: api/Usuario/5
+        var t = texto.Trim().ToLower();
+
+        var resultado = await _context.Usuario.
+            Where(u=>u.IdUsuario !=idActual && u.nombreUsuario.ToLower().Contains(t)).
+            OrderBy(u=>u.nombreUsuario).
+            Select(u=> new { u.IdUsuario,u.nombreUsuario}).
+            Take(20).ToListAsync();
+        return Ok(resultado);
+            
+    }
     [HttpGet("{idusuario}")]
     public async Task<ActionResult<Usuario>> GetUsuario(int idusuario)
     {

@@ -7,8 +7,9 @@
     usuario:      { idUsuario, nombreUsuario }                      (resultados de búsqueda)
 
   Uso:
-    Chat.init({ onSend, onOpen, onSearch, onPickUser })
+    Chat.init({ onSend, onOpen, onSearch, onPickUser })     onSend(idChat, texto, borrador): idChat es null si es el primer mensaje
     Chat.setConversations(lista)   Chat.openChat({ idChat, nombre })
+    Chat.openDraft({ idUsuario, nombre })   abre el chat vacío con alguien con quien aún no hay chat
     Chat.setMessages(lista)        Chat.addMessage(mensaje)
     Chat.setSearchResults(lista)
 */
@@ -21,6 +22,8 @@ window.Chat = (function () {
     let conversaciones = [];
     let activo = null;
     let ultimoDia = null;
+    let borrador = null;   // { idUsuario, nombre } cuando aún no existe el chat
+    let nombrePanel = '';
 
     /* ---------- utilidades ---------- */
     const el = (tag, cls, text) => {
@@ -80,7 +83,29 @@ window.Chat = (function () {
     }
 
     /* ---------- mensajes ---------- */
+    function mostrarVacio() {
+        const v = el('div', 'chat-vacio');
+        v.append(el('strong', null, 'Empieza la conversación'),
+                 el('span', null, `Aún no hay mensajes con ${nombrePanel}. Escribe el primero abajo.`));
+        $('mensajes').append(v);
+    }
+
+    function abrirPanel(nombre) {
+        nombrePanel = nombre;
+        ultimoDia = null;
+        $('placeholder').hidden = true;
+        $('panel').hidden = false;
+        $('hNombre').textContent = nombre;
+        $('hAvatar').replaceWith(Object.assign(avatar(nombre), { id: 'hAvatar' }));
+        $('mensajes').replaceChildren();
+        app.classList.add('is-chat-open');
+        $('resultados').hidden = true;
+        $('conversaciones').hidden = false;
+    }
+
     function burbuja(m) {
+        const vacio = $('mensajes').querySelector('.chat-vacio');
+        if (vacio) vacio.remove();
         const mio = m.idUsuario === yo;
         const d = claveDia(m.fechaEnvio);
         if (d !== ultimoDia) {
@@ -111,26 +136,34 @@ window.Chat = (function () {
 
         openChat(c) {
             activo = c.idChat;
-            ultimoDia = null;
-            $('placeholder').hidden = true;
-            $('panel').hidden = false;
-            $('hNombre').textContent = c.nombre;
-            $('hAvatar').replaceWith(Object.assign(avatar(c.nombre), { id: 'hAvatar' }));
-            $('mensajes').replaceChildren();
-            app.classList.add('is-chat-open');
-            const conv = conversaciones.find(x => x.idChat === c.idChat);
-            if (conv) conv.noLeidos = 0;
+            borrador = null;
+            abrirPanel(c.nombre);
+            let conv = conversaciones.find(x => x.idChat === c.idChat);
+            if (!conv) {   // chat recién creado: aparece en la lista
+                conv = { idChat: c.idChat, nombre: c.nombre, ultimoMensaje: '', fecha: null, noLeidos: 0 };
+                conversaciones = [conv, ...conversaciones];
+            }
+            conv.noLeidos = 0;
             renderList();
-            $('resultados').hidden = true;
-            $('conversaciones').hidden = false;
             h.onOpen(c.idChat);
+            $('texto').focus();
+        },
+
+        // Chat con alguien con quien todavía no hay conversación: se muestra vacío y el chat se crea al enviar el primer mensaje.
+        openDraft(u) {
+            activo = null;
+            borrador = u;
+            abrirPanel(u.nombre);
+            mostrarVacio();
+            renderList();
             $('texto').focus();
         },
 
         setMessages(lista) {
             $('mensajes').replaceChildren();
             ultimoDia = null;
-            (lista || []).forEach(burbuja);
+            if (!lista || lista.length === 0) mostrarVacio();
+            else lista.forEach(burbuja);
             bajar();
         },
 
@@ -197,8 +230,8 @@ window.Chat = (function () {
     $('formEnviar').addEventListener('submit', e => {
         e.preventDefault();
         const texto = caja.value.trim();
-        if (!texto || activo === null) return;
-        h.onSend(activo, texto);
+        if (!texto || (activo === null && !borrador)) return;
+        h.onSend(activo, texto, borrador);
         caja.value = '';
         caja.style.height = 'auto';
     });

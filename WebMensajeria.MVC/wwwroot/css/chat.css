@@ -172,3 +172,18 @@
     .chat-back { display: block; }
     .chat-msg { max-width: 85%; }
 }
+/* ---------- Chat vacío ---------- */
+.chat-vacio {
+    margin: auto;
+    text-align: center;
+    color: var(--chat-muted);
+    max-width: 30ch;
+    padding: 24px;
+}
+
+    .chat-vacio strong {
+        display: block;
+        color: var(--chat-ink);
+        font-size: 1.05rem;
+        margin-bottom: 4px;
+    }
