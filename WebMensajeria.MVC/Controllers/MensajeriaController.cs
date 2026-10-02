@@ -1,6 +1,5 @@
-
-using System.Net.Http.Json;
 using System.Security.Claims;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMensajeria.Consumer;
@@ -11,14 +10,12 @@ namespace WebMensajeria.MVC.Controllers
     [Authorize]
     public class MensajeriaController : Controller
     {
+        // El usuario actual sale SIEMPRE de la cookie, nunca del navegador.
         private int IdActual =>
             int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        private string ApiChats =>
-            CRUD<Chat>.Endpoint;
-
-        private string ApiMensajes =>
-            CRUD<Mensaje>.Endpoint;
+        private string ApiChats => CRUD<Chat>.Endpoint;
+        private string ApiMensajes => CRUD<Mensaje>.Endpoint;
 
         public IActionResult Index()
         {
@@ -30,9 +27,7 @@ namespace WebMensajeria.MVC.Controllers
         public async Task<IActionResult> Conversaciones()
         {
             using var client = new HttpClient();
-
-            var url = $"{ApiChats}/usuario/{IdActual}";
-            return await Reenviar(await client.GetAsync(url));
+            return await Reenviar(await client.GetAsync($"{ApiChats}/usuario/{IdActual}"));
         }
 
         // GET: /Mensajeria/BuscarUsuarios?texto=ju
@@ -40,10 +35,7 @@ namespace WebMensajeria.MVC.Controllers
         public async Task<IActionResult> BuscarUsuarios(string? texto)
         {
             using var client = new HttpClient();
-
-            var url =
-                $"{CRUD<Usuario>.Endpoint}/buscar?texto={Uri.EscapeDataString(texto ?? "")}&idActual={IdActual}";
-
+            var url = $"{CRUD<Usuario>.Endpoint}/buscar?texto={Uri.EscapeDataString(texto ?? "")}&idActual={IdActual}";
             return await Reenviar(await client.GetAsync(url));
         }
 
@@ -52,10 +44,7 @@ namespace WebMensajeria.MVC.Controllers
         public async Task<IActionResult> ChatPrivado(int idOtro)
         {
             using var client = new HttpClient();
-
-            var url =
-                $"{ApiChats}/privado?idUsuario={IdActual}&idOtro={idOtro}";
-
+            var url = $"{ApiChats}/privado?idUsuario={IdActual}&idOtro={idOtro}";
             return await Reenviar(await client.GetAsync(url));
         }
 
@@ -64,42 +53,29 @@ namespace WebMensajeria.MVC.Controllers
         public async Task<IActionResult> Mensajes(int idChat)
         {
             using var client = new HttpClient();
-
-            var url =
-                $"{ApiMensajes}/chat/{idChat}?idUsuario={IdActual}";
-
+            var url = $"{ApiMensajes}/chat/{idChat}?idUsuario={IdActual}";
             return await Reenviar(await client.GetAsync(url));
         }
 
-        public class EnviarDto
-        {
-            public int? IdChat { get; set; }
-            public int? IdDestinatario { get; set; }
-            public string? Texto { get; set; }
-        }
-
-        // POST: /Mensajeria/EnviarMensaje
-        [HttpPost]
-        public async Task<IActionResult> EnviarMensaje(
-            [FromBody] EnviarDto dto)
-        {
-            using var client = new HttpClient();
-
-            // El envío por API requiere un endpoint específico.
-            // Por ahora no se cambia el flujo SignalR existente.
-            return StatusCode(
-                StatusCodes.Status501NotImplemented,
-                "El envío debe realizarse mediante el flujo SignalR configurado.");
-        }
-
         // POST: /Mensajeria/EliminarMensaje?idMensaje=12
+        // Solo el autor puede eliminar su mensaje.
         [HttpPost]
         public async Task<IActionResult> EliminarMensaje(int idMensaje)
         {
             using var client = new HttpClient();
 
-            var url = $"{ApiMensajes}/{idMensaje}";
-            return await Reenviar(await client.DeleteAsync(url));
+            var consulta = await client.GetAsync($"{ApiMensajes}/{idMensaje}");
+            if (!consulta.IsSuccessStatusCode)
+                return StatusCode((int)consulta.StatusCode);
+
+            using var doc = JsonDocument.Parse(await consulta.Content.ReadAsStringAsync());
+            var esAutor = doc.RootElement.TryGetProperty("idUsuario", out var autor)
+                          && autor.GetInt32() == IdActual;
+
+            if (!esAutor)
+                return StatusCode(StatusCodes.Status403Forbidden, "Solo puedes eliminar tus propios mensajes.");
+
+            return await Reenviar(await client.DeleteAsync($"{ApiMensajes}/{idMensaje}"));
         }
 
         private async Task<IActionResult> Reenviar(HttpResponseMessage r)

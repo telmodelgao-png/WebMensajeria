@@ -1,5 +1,4 @@
 
-using Humanizer;
 using Microsoft.AspNetCore.DataProtection;
 using System.IO;
 using WebMensajeria.Consumer;
@@ -16,7 +15,7 @@ CRUD<Mensaje>.Endpoint = "https://localhost:7215/api/Mensajes";
 CRUD<ParticipanteChat>.Endpoint = "https://localhost:7215/api/ParticipanteChats";
 CRUD<ReaccionMensaje>.Endpoint = "https://localhost:7215/api/ReaccionMensajes";
 CRUD<RolParticipante>.Endpoint = "https://localhost:7215/api/RolParticipantes";
-CRUD<TipoAdjunto>.Endpoint = "https://localhost:7215/api/TipoChats";
+CRUD<TipoAdjunto>.Endpoint = "https://localhost:7215/api/TipoAdjuntos";
 CRUD<TipoEstadoMensaje>.Endpoint = "https://localhost:7215/api/TipoEstadoMensajes";
 CRUD<TipoReaccion>.Endpoint = "https://localhost:7215/api/TipoReacciones";
 CRUD<Usuario>.Endpoint = "https://localhost:7215/api/Usuarios";
